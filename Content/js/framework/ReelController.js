@@ -123,6 +123,8 @@ var ReelController = BaseController.extend(function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.reelBitmap.src = reelBitmapCanvas.toDataURL("image/png");  //set rollerImageCanvas as a source for roller image element .
+        addImage(reelBitmapCanvas);
+        return;
         this.ctx.drawImage(this.reelBitmap, 0, 0);                      //draw initial roller image to canvas.
 
         this.container = $(this.canvas).parent();

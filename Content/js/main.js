@@ -137,7 +137,6 @@ function loadAssets() {
     $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
         //initApp(this);
         slog("dickhey loaded..");
-        $("#indie").append($.vSprites)
         onVSpritesLoaded($.vSprites);
     }, false);
 

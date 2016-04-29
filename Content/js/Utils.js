@@ -2,6 +2,9 @@
 var isLogging = true;
 $.togglep = true;
 
+window.addImage = function(img) {
+    $("#indie").append(img);
+}
 window.togglep = function () {
 
     if ($.togglep) {
