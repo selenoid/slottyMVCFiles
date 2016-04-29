@@ -1,0 +1,448 @@
+﻿/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+    color: #333;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+input {
+}
+
+/************************* UTLIZATION STYLES*/
+#imgHolder {
+    display: none;
+}
+
+.onscreen {
+    color:#fff;
+    font-size:1.5em;
+}
+
+#indie {
+    position:absolute;
+    display:block;
+    z-index:10000;
+}
+#dashboard {
+    overflow: hidden;
+    width: 74%;
+    position: absolute;
+    overflow: hidden;
+    z-index: 10000;
+    background: #000;
+    left: 50%;
+    margin-left: -326px;
+    padding: 5px;
+    bottom: 51px;
+    color: #CCE;
+}
+
+#balance {
+    overflow: hidden;
+    width: 65px;
+    position: absolute;
+    overflow: hidden;
+    z-index: 10000;
+    background: #000;
+    left: 50%;
+    margin-left: -292px;
+    padding: 1px;
+    bottom: 10px;
+    font-size: 1.2em;
+    color: #C9C9EA;
+}
+
+#betholder {
+    font-size: .8em;
+    color: #ccc;
+    overflow: hidden;
+    position: absolute;
+    width: 44px;
+    height: 16px;
+    bottom: 17px;
+    overflow: hidden;
+    z-index: 10000;
+    background: none;
+    left: 50%;
+    margin-left: -150px;
+    padding: 0px;
+}
+
+    #betholder input {
+        background: #000;
+        color: inherit;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        -webkit-appearance: none;
+        font-size: 1.3em;
+        width: 39px;
+        text-align: center;
+    }
+
+/************************* UTLIZATION STYLES*/
+
+body {
+    width:735px;
+    height:460px;
+    overflow:hidden;
+    background: #000;
+    padding: 0 0 0 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    zoom: 1;
+    overflow: hidden;
+}
+
+#bgpl {
+    z-index: -100000;
+    position: absolute;
+    margin-left: -368px;
+    left: 50%;
+    width: 735px;
+    height: 460px;
+    background: url("./img/uibg.png") no-repeat 0 0;
+}
+
+.navbar-inverse {
+    display: none;
+}
+
+
+#wrapper {
+    margin-top: 0px;
+}
+
+#wrapper-test {
+    display: none;
+    margin-top: 0px;
+}
+
+
+.banner-top {
+    overflow: hidden;
+    padding: 10px 5px;
+    padding: 0;
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+    .banner-top .btn {
+        margin-top: 6px;
+        margin-right: 7px;
+    }
+
+
+
+
+#game-container {
+    z-index: 1000;
+    position: absolute;
+    margin-left: -368px;
+    left: 50%;
+    width: 735px;
+    height: 460px;
+    /*background: url("./img/uibg.png") no-repeat 0 0;*/
+}
+
+.btn {
+    text-decoration: none;
+    line-height: 34px;
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    display: block;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+
+.inline {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0 3px;
+}
+
+.slotbg {
+    float: left;
+    width: 116px;
+    height: 336px;
+    position: relative;
+    margin-right: 4px;
+    border: 0px none #000;
+    border-radius: 5px;
+    padding: 0;
+    background: url("./img/ui/slotbg.png") no-repeat 0 0 scroll;
+}
+
+    .slotbg .ctf {
+        position: relative;
+        top: 0;
+        margin: 6px 0px;
+        margin-top: 0;
+        padding: 0 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .slotbg:first-child {
+        margin-left: 4px;
+    }
+
+    .slotbg:last-child {
+        margin-right: 0;
+    }
+
+#d535 {
+    padding: 0px;
+    position: relative;
+    width: 605px;
+    margin: 41px auto;
+    overflow: hidden;
+    display: none;
+    display: block;
+}
+
+#game-final {
+    display: none;
+    background: rgba(155,155,155,0.5);
+    position: absolute;
+    top: 24px;
+    width: 320px;
+    height: 321px;
+    z-index: 1000;
+}
+
+#indicator2 {
+    width: 90px;
+}
+
+canvas {
+    /*position:relative;
+    top:0;*/
+}
+
+.cItem {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    margin: 0px;
+}
+
+.animClass {
+    -webkit-transform: translate3d(0, 0, 0);
+    /* more specific animation properties here */
+}
+
+canvasOver {
+    display: none;
+    position: relative;
+    top: 0;
+    background-color: #8d1111;
+}
+
+#textf {
+    color: #CCCCCC;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+h5 {
+    margin: 3px 0;
+}
+
+
+#imgHolder {
+    margin: 10px auto;
+    width: 95%;
+    overflow: hidden;
+}
+
+    #imgHolder .finalImage {
+        /*width:10%;*/
+    }
+
+/***********************/
+/* UI ELEMENTS */
+/***********************/
+
+#interface {
+    position: absolute;
+    width: 680px;
+    height: 76px;
+    background-color: rgba(0,0,0,0.5);
+    top: 378px;
+    left: 28px;
+    z-index: 1;
+    opacity: 1;
+}
+
+#gambleButton {
+    background-color: #F2FF00;
+    top: 0px;
+    left: 580px;
+    z-index: 1;
+    background: url('img/ui/gamblebutton.png') top left no-repeat;
+}
+
+    #gambleButton:hover {
+        background-position: top right;
+    }
+
+
+#collectButton {
+    background-color: #FF0000;
+    top: 33px;
+    left: 580px;
+    z-index: 1;
+    height: 43px;
+    background: url('img/ui/collectbutton.png') top left no-repeat;
+}
+
+    #collectButton:hover {
+        background-position: top right;
+    }
+
+
+#gambleButton {
+    background-color: #F2FF00;
+    top: 0px;
+    left: 580px;
+    z-index: 1;
+    background: url('img/ui/gamblebutton.png') top left no-repeat;
+}
+
+    #gambleButton:hover {
+        background-position: top right;
+    }
+
+
+
+#autoplayButton {
+    background-color: #E90E0E;
+    width: 76px;
+    top: 46px;
+    left: 502px;
+    z-index: 1;
+    background: url('img/ui/autoplaybutton.png') top left no-repeat;
+}
+
+    #autoplayButton:hover {
+        background-position: top right;
+    }
+
+#exitButton {
+    width: 44px;
+    top: 46px;
+    left: 452px;
+    z-index: 1;
+    background: url('img/ui/exitbutton.png') top left no-repeat;
+}
+
+    #exitButton:hover {
+        background-position: top right;
+    }
+
+.betButton {
+    background-color: #E90E0E;
+    width: 48px;
+    height: 36px;
+    top: 41px;
+    left: 0px;
+    z-index: 1;
+    background: url('img/ui/betbutton.png') top left no-repeat;
+}
+
+.betPanel {
+    background: url('img/ui/betpanel.png') top left no-repeat;
+}
+
+#betButton_100 {
+    left: 396px;
+}
+
+#betButton_50 {
+    left: 342px;
+}
+
+#betButton_25 {
+    left: 290px;
+}
+
+#betButton_10 {
+    left: 238px;
+}
+
+.betButton:hover {
+    background-position: top right;
+}
+
+#betPanelView {
+    left: 186px;
+}
+
+.btnText {
+    color: #FFF;
+    font-family: 'Open Sans', Tahoma, sans-serif;
+    font-size: 1em;
+}
+
+.isActive {
+    color: #ffcc00;
+    background-position: top right !important;
+    text-shadow: 0px 0px 3px rgba(255,255,0,0.5);
+}

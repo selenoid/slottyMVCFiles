@@ -1,0 +1,20 @@
+﻿@model List<OnlineCasinoModel.CreditCardModel>
+@{
+    ViewBag.Title = "ListCreditCard";
+}
+
+<div class="jumbotron">
+
+    <h2>ListCreditCard</h2>
+    @foreach (var creditCardModel in Model)
+    {
+        <ul>
+            @creditCardModel.CardType
+            <li>@creditCardModel.CardType</li>
+            <li>@creditCardModel.TotalAmount</li>
+            <li>@creditCardModel.CardNumber</li>
+        </ul>
+    }
+
+</div>
+
