@@ -130,9 +130,7 @@ var ReelController = BaseController.extend(function () {
     }
 
     this.UpdateReelFinal= function (finalBitmap) {
-
         dlog("updating final bitmap : " + finalBitmap);
-        debugger
         this.reelFinalBitmap = new Image();             // reel bitmap image -to be used as a source for actual context in actual canvas-
         this.reelFinalBitmap.setAttribute("class", "finalImage");
     }
@@ -268,7 +266,6 @@ var ReelController = BaseController.extend(function () {
         }
 
         $("#indie").append(canvasCache);
-        debugger
         return canvasCache;
     };
 });

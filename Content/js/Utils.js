@@ -20,7 +20,6 @@ window.slog = function (params) {
 }
 
 window.dumpDatalog = function () {
-    debugger
     var datalog = utils.datalog
     var start = datalog[0].data;
     var retval = "<table>"
