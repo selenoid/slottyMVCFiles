@@ -123,6 +123,7 @@ function resizeContent() {
 }
 
 function onVSpritesLoaded(img) {
+
     loadBaseAssets();
 }
 
@@ -133,10 +134,11 @@ function loadAssets() {
     //load initial sprite image
     $.vSprites = new Image();
     $.vSprites.id = "vertical";
-    $.vSprites.addEventListener("load", function () { //init spinners after the sprites image loaded..
+    $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
         //initApp(this);
         slog("dickhey loaded..");
-        onVSpritesLoaded();
+        $("#indie").append($.vSprites)
+        onVSpritesLoaded($.vSprites);
     }, false);
 
     $.vSprites.src = '/Content/img/ui/dickhey.png';

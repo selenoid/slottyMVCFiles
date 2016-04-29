@@ -265,7 +265,7 @@ var ReelController = BaseController.extend(function () {
             this.yoffset += vm.itemH;
         }
 
-        $("#indie").append(canvasCache);
+        //$("#indie").append(canvasCache);
         return canvasCache;
     };
 });
