@@ -62,8 +62,8 @@
         var ctx = canvas.getContext('2d');
 
         var self = this;
-        
-        function getBaseImage() {
+
+        function getBaseImage(callback) {
 
             var canvasCache = document.createElement('canvas');
             var cacheCtx = null;
@@ -84,6 +84,11 @@
             // cacheCtx.drawImage($.vSprites, 0, 0);
 
             var baseImage = new Image();
+            baseImage.addEventListener("load", function (img) {
+
+                callback(this);
+            });
+
             baseImage.src = canvasCache.toDataURL("image/png");
 
             return baseImage
@@ -97,22 +102,22 @@
 
         $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
 
-            var _baseImage = getBaseImage();
-            $("body").append(_baseImage);
+
+            var _baseImage = getBaseImage(
+
+			function (img) {
+			    dlog("ters:" + ctx);
+			    dlog("img:" + img);
+
+			    ctx.clearRect(0, 0, 107, 107 * 4);
+			    ctx.drawImage(img, 0, 0);
+			    nc++;
+			    $("body").append(img);
+			});
 
             var canvas = document.getElementById("canny");
             var ctx = canvas.getContext('2d');
-
-            setTimeout( function () {
-                dlog("ters:" + ctx);
-                dlog("_baseImage:" + _baseImage);
-
-                ctx.clearRect(0, 0, 107, 107 * 4);
-                ctx.drawImage(_baseImage, 0, 0);
-                nc++
-            },1000);
-
-
+            return;
 
         }, false);
 
