@@ -58,6 +58,10 @@ function initApp(img) {
     //add GameEvent listener to document
     document.addEventListener('gameEvent', onGameEvent, false);
 
+    $("#gambleButton").click(function () {
+        $("#play").click();
+    });
+
     $(document).on("keypress", function (e) {
         // use e.which
         switch (e.which) {
@@ -68,10 +72,6 @@ function initApp(img) {
                 break;
         }
     });
-
-    $("#gambleButton").click(function () {
-        $("#play").click();
-    })
 
     // define the game event handler.
     var onGameEvent = function (evt) {
@@ -120,8 +120,7 @@ function resizeContent() {
     $('body').css("zoom", fZoom);
 }
 
-function onVSpritesLoaded(img) {
-
+function onVSpritesLoaded() {
     loadBaseAssets();
 }
 
@@ -134,8 +133,7 @@ function loadAssets() {
     $.vSprites.id = "vertical";
     $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
         //initApp(this);
-        //slog("dickhey loaded..");
-        onVSpritesLoaded($.vSprites);
+        onVSpritesLoaded();
     }, false);
 
     $.vSprites.src = '/Content/img/ui/dickhey.png';
