@@ -31,12 +31,32 @@
 
         var self = this;
 
+        var canvasCache = document.createElement('canvas');
+        var cacheCtx = null;
+
+
+        dlog("new canvas : " + canvasCache);
+
+
         //load initial sprite image
         $.vSprites = new Image();
         $.vSprites.id = "vertical";
         $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
             //$("body").append($.vSprites);
-            ctx.drawImage($.vSprites, 0, 0);
+
+            canvasCache.setAttribute('width', 107);
+            canvasCache.setAttribute('height', (107 * 4));
+
+            cacheCtx = canvasCache.getContext('2d');
+            cacheCtx.clearRect(0, 0, canvasCache.width, canvasCache.height);
+
+            cacheCtx.drawImage($.vSprites, 0, 0);
+            var nuimage = new Image();
+
+            nuimage.src = canvasCache.toDataURL("image/png");
+
+            $("body").append(canvasCache);
+
         }, false);
 
         $.vSprites.src = '/Content/img/ui/dickhey.png';
