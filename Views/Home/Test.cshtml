@@ -90,21 +90,18 @@
         }
 
 
-
         $.vSprites = new Image();
         $.vSprites.id = "vertical";
 
         $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
 
             var _baseImage = getBaseImage();
-            //$("body").append(_baseImage);
+            $("body").append(_baseImage);
 
             var canvas = document.getElementById("canny");
             var ctx = canvas.getContext('2d');
 
             ctx.drawImage(_baseImage, 0, 0);
-
-            
         }, false);
 
         $.vSprites.src = '/Content/img/ui/dickhey.png';
