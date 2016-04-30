@@ -97,7 +97,7 @@ var ReelController = BaseController.extend(function () {
             case Constants.$_SERVER_RESPONSE:
                 //
                 break;
-            case Constants.$_REEL_COMMAND:
+            case Constants.$_REEL_COMMAND:u
                 dlog(this.id + " [processing  notification] " + notification.message);
                 break;
             default:
@@ -122,11 +122,14 @@ var ReelController = BaseController.extend(function () {
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        var self = this;
+
         this.reelBitmap.src = reelBitmapCanvas.toDataURL("image/png");  //set rollerImageCanvas as a source for roller image element .
-        this.ctx.drawImage(this.reelBitmap, 0, 0);                      //draw initial roller image to canvas.
-
+        this.reelBitmap.addEventListener("load", function (img) {
+            self.ctx.drawImage(self.reelBitmap, 0, 0); //draw initial roller image to canvas.
+        });
+        
         this.container = $(this.canvas).parent();
-
     }
 
     this.UpdateReelFinal= function (finalBitmap) {

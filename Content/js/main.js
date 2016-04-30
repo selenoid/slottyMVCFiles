@@ -51,8 +51,6 @@ function getTest() {
 }
 
 function initApp(img) {
-    slog("image loaded...");
-    $("#indie").append(img);
     resizeContent();
     $.test = getTest();
     var ua = getUserAgent();
@@ -136,7 +134,7 @@ function loadAssets() {
     $.vSprites.id = "vertical";
     $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
         //initApp(this);
-        slog("dickhey loaded..");
+        //slog("dickhey loaded..");
         onVSpritesLoaded($.vSprites);
     }, false);
 
