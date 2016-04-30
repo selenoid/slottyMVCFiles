@@ -122,12 +122,16 @@ var ReelController = BaseController.extend(function () {
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        this.ctx.drawImage(reelBitmapCanvas, 0, 0); //draw initial roller image to canvas.
+
+        return;
+        /*
         var self = this;
 
         this.reelBitmap.src = reelBitmapCanvas.toDataURL("image/png");  //set rollerImageCanvas as a source for roller image element .
         this.reelBitmap.addEventListener("load", function (img) {
             self.ctx.drawImage(self.reelBitmap, 0, 0); //draw initial roller image to canvas.
-        });
+        });*/
         
         this.container = $(this.canvas).parent();
     }
