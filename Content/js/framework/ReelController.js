@@ -123,8 +123,6 @@ var ReelController = BaseController.extend(function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.reelBitmap.src = reelBitmapCanvas.toDataURL("image/png");  //set rollerImageCanvas as a source for roller image element .
-        addImage(reelBitmapCanvas);
-        return;
         this.ctx.drawImage(this.reelBitmap, 0, 0);                      //draw initial roller image to canvas.
 
         this.container = $(this.canvas).parent();
@@ -132,7 +130,9 @@ var ReelController = BaseController.extend(function () {
     }
 
     this.UpdateReelFinal= function (finalBitmap) {
+
         dlog("updating final bitmap : " + finalBitmap);
+        debugger
         this.reelFinalBitmap = new Image();             // reel bitmap image -to be used as a source for actual context in actual canvas-
         this.reelFinalBitmap.setAttribute("class", "finalImage");
     }
@@ -248,7 +248,9 @@ var ReelController = BaseController.extend(function () {
         
         this.yoffset = 0;
         var _sprites = reelData.sprite;       //get sprite data from rollerdata.
- 
+        //slog("get canvas image : " + _sprites);
+        //$("#indie").append(_sprites);
+
         var reelItems = reelData.reelItems;    //items of sprite data to be drawn on the roll image.
 
         var canvasCache = document.createElement('canvas'); //create in-memory cache canvas for copying.
@@ -266,9 +268,6 @@ var ReelController = BaseController.extend(function () {
             cacheCtx.drawImage(_sprites, rItem.x, rItem.y, rItem.w, 110, 0, this.yoffset, rItem.w, 110);
             this.yoffset += vm.itemH;
         }
-
-        //$("#indie").append(canvasCache);
-
         return canvasCache;
     };
 });

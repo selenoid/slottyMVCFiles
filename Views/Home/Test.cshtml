@@ -93,6 +93,8 @@
         $.vSprites = new Image();
         $.vSprites.id = "vertical";
 
+
+
         $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
 
             var _baseImage = getBaseImage();
@@ -101,7 +103,7 @@
             var canvas = document.getElementById("canny");
             var ctx = canvas.getContext('2d');
 
-            setInterval( function () {
+            setTimeout( function () {
                 dlog("ters:" + ctx);
                 dlog("_baseImage:" + _baseImage);
 
@@ -109,6 +111,7 @@
                 ctx.drawImage(_baseImage, 0, 0);
                 nc++
             },1000);
+
 
 
         }, false);
