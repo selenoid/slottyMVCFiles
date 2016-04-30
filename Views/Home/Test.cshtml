@@ -26,7 +26,7 @@
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Content/js/Utils.js"></script>
     <script>
-
+        var nc = 0;
         var reelItems = [
                 { x: 0, y: 110 * 0 },
                 { x: 0, y: 110 * 5 },
@@ -101,7 +101,16 @@
             var canvas = document.getElementById("canny");
             var ctx = canvas.getContext('2d');
 
-            ctx.drawImage(_baseImage, 0, 0);
+            setInterval( function () {
+                dlog("ters:" + ctx);
+                dlog("_baseImage:" + _baseImage);
+
+                ctx.clearRect(0, 0, 107, 107 * 4);
+                ctx.drawImage(_baseImage, 0, 0);
+                nc++
+            },1000);
+
+
         }, false);
 
         $.vSprites.src = '/Content/img/ui/dickhey.png';
