@@ -26,6 +26,7 @@
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Content/js/Utils.js"></script>
     <script>
+
         var reelItems = [
                 { x: 0, y: 110 * 0 },
                 { x: 0, y: 110 * 5 },
@@ -35,8 +36,20 @@
                 { x: 0, y: 110 * 4 },
                 { x: 0, y: 110 * 3 },
                 { x: 0, y: 110 * 3 },
-                { x: 0, y: 110 * 2 },
                 { x: 0, y: 110 * 6 },
+                { x: 0, y: 110 * 3 },
+                { x: 0, y: 110 * 6 },
+                { x: 0, y: 110 * 2 },
+                { x: 0, y: 110 * 5 },
+                { x: 0, y: 110 * 0 },
+                { x: 0, y: 110 * 0 },
+                { x: 0, y: 110 * 5 },
+                { x: 0, y: 110 * 6 },
+                { x: 0, y: 110 * 3 },
+                { x: 0, y: 110 * 1 },
+                { x: 0, y: 110 * 4 },
+                { x: 0, y: 110 * 3 },
+                { x: 0, y: 110 * 2 },
                 { x: 0, y: 110 * 5 },
                 { x: 0, y: 110 * 0 },
         ];
@@ -46,17 +59,11 @@
 
         var self = this;
 
-        var canvasCache = document.createElement('canvas');
-        var cacheCtx = null;
+        
+        function getBaseImage() {
 
-        dlog("new canvas : " + canvasCache);
-        //load initial sprite image
-
-        $.vSprites = new Image();
-        $.vSprites.id = "vertical";
-
-        $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
-            //$("body").append($.vSprites);
+            var canvasCache = document.createElement('canvas');
+            var cacheCtx = null;
 
             var yoffset = 0;
             canvasCache.setAttribute('width', 107);
@@ -64,12 +71,6 @@
 
             cacheCtx = canvasCache.getContext('2d');
             cacheCtx.clearRect(0, 0, canvasCache.width, canvasCache.height);
-
-            $("body").append(canvasCache);
-
-            
-
-
 
             for (var i = 0; i < reelItems.length; i++) {
                 var rItem = reelItems[i];
@@ -80,12 +81,23 @@
             // cacheCtx.drawImage($.vSprites, 0, 0);
 
 
-            var nuimage = new Image();
+            var baseImage = new Image();
+            baseImage.src = canvasCache.toDataURL("image/png");
 
-            nuimage.src = canvasCache.toDataURL("image/png");
-            //$("body").append(nuimage);
+            return baseImage
+        }
 
 
+
+        $.vSprites = new Image();
+        $.vSprites.id = "vertical";
+
+        $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
+
+            var _baseImage = getBaseImage();
+            $("body").append(_baseImage);
+
+            
         }, false);
 
         $.vSprites.src = '/Content/img/ui/dickhey.png';
