@@ -81,7 +81,6 @@ $().ready(function () {
     }
 
     function startSpin (e) {
-        //dlog("[server send] >> start spin...");
         if (ws.readyState == WebSocket.OPEN) {
             ws.send($("#textInput").val());
         }

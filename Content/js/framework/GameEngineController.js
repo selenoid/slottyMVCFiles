@@ -35,7 +35,6 @@ var GameEngineController = BaseController.extend(function () {
                 else if (serverdata.action == Constants.$_SERVER_BET_RESULT) {
                     vm.ServerBetResult = { gameMatrix: serverdata.data };
                     var that = this;
-                    debug('[server send]' + new Date().getTime());
                     doTimer(200, 50, null, function () {
                         vm.IS_BET_RESULT = true;
                         vm.IS_BUSY = false;

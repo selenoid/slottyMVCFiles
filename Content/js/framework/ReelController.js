@@ -23,8 +23,7 @@ var ReelController = BaseController.extend(function () {
     this.iconNum = this.stagedIconNum;
     this.self = null;
     this.reelAnimationBitmapCanvas = null;
-    //this.reelAnimBitmap = null;
-    this.reelBitmapCanvas = null;
+    this.reelAnimBitmap = null;
     this.reelFinalAnimBitmap = null;
     this.animIncOrg = 0.25;
     this.animInc = this.animIncOrg;
@@ -113,27 +112,24 @@ var ReelController = BaseController.extend(function () {
 
         this.canvas = this.reelItemData.canvas;                         // get actual canvas
         this.ctx = this.canvas.getContext('2d');                        // get actual context to draw
-        //this.reelBitmap = new Image();                                  // reel bitmap image -to be used as a source for actual context in actual canvas-
+        this.reelBitmap = new Image();                                  // reel bitmap image -to be used as a source for actual context in actual canvas-
 
-        this.reelBitmapCanvas = null;                                    // create primary / pseudo base image canvas
+        var reelBitmapCanvas = null;                                    // create primary / pseudo base image canvas
         var iconNum = this.fullIconNum;                                 // number of items to be drawn at once or per cycle
-
-        this.reelBitmapCanvas = this.GetBaseReelImage(this.reelItemData, iconNum); //get in-memory roller image canvas.
+        var reelBitmapCanvas = this.GetBaseReelImage(this.reelItemData, iconNum); //get in-memory roller image canvas.
 
         var orgY = (-1 * vm.itemH) * iconNum;
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.drawImage(this.reelBitmapCanvas, 0, 0); //draw initial roller image to canvas.
-
-        return;
-        /*
+        //this.ctx.drawImage(reelBitmapCanvas, 0, 0); //draw initial roller image to canvas.
+      
         var self = this;
 
         this.reelBitmap.src = reelBitmapCanvas.toDataURL("image/png");  //set rollerImageCanvas as a source for roller image element .
         this.reelBitmap.addEventListener("load", function (img) {
             self.ctx.drawImage(self.reelBitmap, 0, 0); //draw initial roller image to canvas.
-        });*/
+        });
         
         this.container = $(this.canvas).parent();
     }
@@ -164,16 +160,16 @@ var ReelController = BaseController.extend(function () {
             return;
         }
 
-        /*if (this.reelAnimBitmap == null) {
+        if (this.reelAnimBitmap == null) {
             this.reelAnimBitmap = this.reelBitmap;
-        }*/
+        }
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.animInc = this.animIncOrg;
         this.counter = inc;
 
         this.spinAnimOffset = (vm.itemH * (this.animInc * this.counter));
-        this.ctx.drawImage(this.reelBitmapCanvas, 0, this.spinAnimOffset, this.reelBitmapCanvas.width, this.vm.itemH * 3, 0, 0, this.reelBitmapCanvas.width, this.vm.itemH * 3);
+        this.ctx.drawImage(this.reelAnimBitmap, 0, this.spinAnimOffset, this.reelAnimBitmap.width, this.vm.itemH * 3, 0, 0, this.reelAnimBitmap.width, this.vm.itemH * 3);
 
 
         if (this.Stopped) {
@@ -257,8 +253,6 @@ var ReelController = BaseController.extend(function () {
         
         this.yoffset = 0;
         var _sprites = reelData.sprite;       //get sprite data from rollerdata.
-        //slog("get canvas image : " + _sprites);
-        //$("#indie").append(_sprites);
 
         var reelItems = reelData.reelItems;    //items of sprite data to be drawn on the roll image.
 
@@ -277,7 +271,6 @@ var ReelController = BaseController.extend(function () {
             cacheCtx.drawImage(_sprites, rItem.x, rItem.y, rItem.w, 110, 0, this.yoffset, rItem.w, 110);
             this.yoffset += vm.itemH;
         }
-
         return canvasCache;
     };
 });

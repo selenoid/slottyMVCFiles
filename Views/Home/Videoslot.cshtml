@@ -99,7 +99,6 @@
             };
 
             ws.onmessage = function (evt) {
-                debug('[server send]' + new Date().getTime());
                 console.time('server-send');
                 
                 //dlog("[server return] >>" + evt.data.toString());
@@ -175,7 +174,6 @@
             var async = (_async == true) ? _async : false;
             var  nData = {  action:Constants.$_STOP_REELS, data:{async:async, slotData:''}}
             notify(Constants.$_STOP_REELS, nData);
-            //dlog("[server send] >> stop spin...");
         }
 
         function toggleSpin (e) {
@@ -195,7 +193,6 @@
                 if(vm.IS_OPEN_FOR_BET) {
                     var nData = {  action:Constants.$_SERVER_BET_START, data:{}, profit:0};
                     notify(Constants.$_SPIN_REELS, nData);
-                    dlog("[server send => ]" + new Date().getTime());
                     ws.send($("#textInput").val());
                     vm.IS_OPEN_FOR_BET = false;
                     vm.IS_BUSY = true;
