@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>
+        testing
+    </title>
+    <style>
+        canvas {
+            background: #ff6a00;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvasholder">
+        <canvas id="canny"></canvas>
+    </div>
+    <div>
+    </div>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/js/Utils.js"></script>
+    <script>
+        var canvas = document.getElementById("canny");
+        var ctx = canvas.getContext('2d');
+
+        var self = this;
+
+        //load initial sprite image
+        $.vSprites = new Image();
+        $.vSprites.id = "vertical";
+        $.vSprites.addEventListener("load", function (img) { //init spinners after the sprites image loaded..
+            //$("body").append($.vSprites);
+            ctx.drawImage($.vSprites, 0, 0);
+        }, false);
+
+        $.vSprites.src = '/Content/img/ui/dickhey.png';
+
+    </script>
+</body>
+</html>
