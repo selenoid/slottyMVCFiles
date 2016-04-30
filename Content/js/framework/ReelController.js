@@ -268,6 +268,7 @@ var ReelController = BaseController.extend(function () {
         }
 
         //$("#indie").append(canvasCache);
+
         return canvasCache;
     };
 });
