@@ -17,8 +17,7 @@ var GameEngineController = BaseController.extend(function () {
 
     this.onServerResultComplete = function (notification) {
         var serverdata = notification.data;
-        debugger
-        debug("notification:" + notification.gameMatrix);
+        //debug("notification:" + notification.gameMatrix);
     }
 
 
@@ -26,6 +25,10 @@ var GameEngineController = BaseController.extend(function () {
         var that = this;
         switch (notification.message) {
             case "no-message":
+                break;
+            case "stopImmediate":
+                slotEngine.StopSpinImmediate();
+                vm.IS_STOP_IMMEDIATE = true;
                 break;
             case "serverResponse":
                 var serverdata = notification.notificationData;
@@ -144,6 +147,7 @@ var GameEngineController = BaseController.extend(function () {
         vm.IS_OPEN_FOR_BET = true;
         vm.IS_BUSY = false;
         vm.IS_STOP_ENTERED = false;
+        vm.IS_STOP_IMMEDIATE = false;
         vm.Timer = 0;
         vm.IS_TIMER;
 
@@ -154,6 +158,7 @@ var GameEngineController = BaseController.extend(function () {
     };
 
     this.onAllAnimationsComplete = function () {
+        debugger
         debug("all animations complete...");
     }
 
@@ -215,7 +220,7 @@ var GameEngineController = BaseController.extend(function () {
     }
 
     this.onGameDataReady = function (gameDataObject) {
-        debug(gameDataObject);
+        //debug(gameDataObject);
     }
 
     this.getReelsDataObjects = function (reelsData) {

@@ -101,7 +101,7 @@
             ws.onmessage = function (evt) {
 
                 console.timeEnd('server-send');
-                console.time ("data-parse");
+                //console.time ("data-parse");
                 console.time ("sequence");
 
                 //dlog("[server return] >>" + evt.data.toString());
@@ -130,7 +130,7 @@
                         var gameMatrix = tempMatrix.split(',');
                         var nData = {  action:Constants.$_SERVER_BET_RESULT, data:tempMatrix, profit:profit}
                         //gameEngine.onServerResultComplete(nData);
-                        console.timeEnd('data-parse');
+                        //console.timeEnd('data-parse');
                         console.time('start-notification');
                         notify("serverResponse", nData);
                         /* var r;
@@ -183,6 +183,14 @@
 
         function toggleSpin (e) {
             if (ws.readyState == WebSocket.OPEN) {
+
+                debug("clicked...");
+                if(vm.IS_STOP_IMMEDIATE) return;
+
+
+                if(vm.IS_BUSY && vm.IS_STOP_ENTERED) {
+                    notify ('stopImmediate',{});
+                }
 
                 if(vm.IS_BUSY) return;
 

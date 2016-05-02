@@ -106,6 +106,23 @@ var SlotEngineController = BaseController.extend(function () {
 
     //STOP Sequence
 
+    this.StopSpinImmediate = function () {
+        var self = this;
+        for (var i = 0; i < this.reelItems.length; i++) {
+
+            //get nth reel from array
+            var reel = this.reelItems[i];
+
+            /*if (i == this.reelItems.length - 1) {
+                //check if the reel is the last one in the array, add callback on stopping animation complete if so.
+                //reel.StopSpin(i * 300);
+            }*/
+
+            reel.StopSpin(i * 0);
+        }
+
+    }
+
     this.StopSpin = function (async) {
 
         var interval = (async) ? 0 : 200;

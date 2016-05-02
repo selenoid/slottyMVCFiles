@@ -142,7 +142,9 @@ var ReelController = BaseController.extend(function () {
         this.reelFinalBitmap.setAttribute("class", "finalImage");
     }
 
-
+    this.StopSpinImmediate = function () {
+        this.stopped = true;
+    }
 
     this.StopSpin = function (delay) {
         this.stopDelay = delay;
