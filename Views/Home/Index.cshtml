@@ -1,6 +1,208 @@
 ﻿@{
     ViewBag.Title = "Video Slot Game";
-Layout = "~/Views/Shared/_LayoutTest.cshtml";
+    Layout = "../Shared/_Layout2.cshtml";
 }
+@using OnlineCasinoModel
+@model OnlineCasinoModel.MemberViewModel
 
-<p style="color:#fff;">Test ok!<a href="/Home/VideoSlot" style="color:#FFCC00;text-decoration:none;"> >> videoslot</a></p>
+
+<div class="jumbotron row">
+    <!--Matrix-->
+    <div class="col-md-3">
+
+        <div id="divgameMatrix">
+            @{
+                for (int i = 0; i < Model.GameModel.Column; i++)
+                {
+                    <ul id="column_@i" style="float: left;">
+                        @for (int j = 0; j < Model.GameModel.Row; j++)
+                        {
+                            <li style="font-size: xx-large;" id="row_@j">@Model.Matrix[i, j]</li>
+                        }
+                    </ul>
+                }
+            }
+        </div>
+
+    </div>
+    <!--EndMatrix-->
+    <!--Game Action-->
+    <div class="col-md-3" style="margin-top: 57px;">
+        <div style="margin-left: 264px;">
+            <input type="text" id="textInput" value="@Model.Bet" />
+            <input id="play" type="button" style="background-color: red;" class="alert-danger" value="Play" />
+        </div>
+        <span style="margin: 10%;" id="spanStatus">(display)</span>
+    </div>
+    <!--End Game Action-->
+    <!--Login from-->
+    <div class="col-md-3" style="margin-top: -5%; margin-left: 10%;">
+
+        <div class="form">
+            @if (Model.MemberId <= 0)
+            {
+                <div id="loginForm">
+                    <h1 style="color: aliceblue">Log In</h1>
+                    <h1>Welcome Back!</h1>
+                    <div class="field-wrap">
+                        <input id="email" class="loginInput" placeholder="Email Address" type="email" required autocomplete="off" />
+                    </div>
+                    <div class="field-wrap">
+                        <input id="password" class="loginInput" placeholder="Password" type="password" required autocomplete="off" />
+                    </div>
+                    <p class="forgot">
+                        <a href="#">Forgot Password?</a>
+                    </p>
+                    <button id="login" class="button button-block">Log In</button>
+                </div>
+            }
+            else
+            {
+                <div id="logoutForm">
+                    <h1>Name:<span id="loginName">@Model.Name</span></h1>
+                    <h1>Money:<span id="totalAmount">@Model.TotalAmount</span></h1>
+                    <button id="logout" class="button button-block">Log Out</button>
+                </div>
+            }
+
+
+        </div>
+    </div>
+    <!--End login form-->
+</div>
+
+
+<script type="text/javascript">
+    var ws;
+    var memberId = @Model.MemberId;
+    $("#login").click(function () {
+        var LoginModel =
+        {
+            Email: $("#email").val(),
+            Password : $("#password").val()
+        }
+
+        var model = JSON.stringify(LoginModel);
+        console.log("model",model);
+        $.post("@Url.Action("Login","Member")", LoginModel)
+            .done(function(data) {
+                alert("Done");
+                $("#email").val("");
+                $("#password").val("");
+                $("#loginForm").css("display", "none");
+                $("#logoutForm").css("display", "inline");
+            })
+            .error(function(error) {
+              alert("Error",error);
+            });
+    });
+
+    $("#logout").click(function () {
+        alert("Logout");
+        var authenticationtoken = "@Model.LoginModel.AuthenticationToken";
+        $.post("@Url.Action("LogOut", "Member")",authenticationtoken)
+        .done(function(data) {
+            $("#loginForm").css("display", "inline");
+            $("#logoutForm").css("display", "none");
+        })
+        .error(function(error) {
+           alert("Error",error);
+        });
+    });
+
+
+
+    function initSocket (isAppInited) {
+        console.log("MemberId", memberId);
+        if (memberId != null) {
+            $("#spanStatus").text("connecting");
+            ws = new WebSocket("ws://" + window.location.hostname +
+                ":53714/api/Disconnected");
+
+            //ws = new WebSocket("ws://" + window.location.hostname +
+            //"/api/Game");
+
+            ws.onopen = function () {
+                $("#spanStatus").text("connected");
+            };
+
+            ws.onmessage = function (evt) {
+                //dlog("[server return] >>" + evt.data.toString());
+                var response = evt.data;
+                var result = JSON.parse(evt.data,5);
+                response = result.split(" ");
+                var totalAmount = "";
+                for (var i = 0; i < response.length; i++) {
+                    var column = parseInt(response[7]);
+                    var row =parseInt(response[9]);
+                    var profit = parseInt(response[11]);
+                    if (profit > 0) {
+                        $("#checkIcon").show();
+                        $("#spanProfit").text("   You Win!!!  "+profit+ " $ ");
+                        $("#spanProfit").css("color", "greenyellow");
+                    } else {
+                        $("#checkIcon").hide();
+                        $("#spanProfit").text("You lost :(( ");
+                        $("#spanProfit").css("color", "inherit");
+                    }
+                    if (i === 3) {
+                        totalAmount = response[i];
+                    }
+                    else if(i === 5) {
+                        var tempMatrix = response[i].substring(1, response[i].length - 1);
+                        var gameMatrix = tempMatrix.split(',');
+                        var nData = {  action:Constants.$_SERVER_BET_RESULT, data:tempMatrix, profit:profit}
+                        var r;
+                        var rowindex = 0;
+                        var rowCount = row;
+                        $("#divgameMatrix").empty();
+                        for (var c = 0; c < column; c++) {
+                            if (row <= gameMatrix.length) {
+                                $("#divgameMatrix").append("<ul id="+c+">");
+                                $("#" + c).css("float", "left");
+                                for (r = rowindex; r < row; r++) {
+                                    $("#"+c).append("<li>" + gameMatrix[r] + "</li>");
+                                }
+
+                                rowindex = row;
+                                row = row + rowCount;
+                            }
+
+                        }
+
+                        //$.gameData = {gameMatrix:gameMatrix, success:"success", code:200};
+
+                    }
+
+                }
+                $("#totalAmount").text(totalAmount);
+
+            };
+
+            ws.onerror = function (evt) {
+                $("#spanStatus").text(evt.message);
+            };
+
+            ws.onclose = function () {
+                //dlog("[socket connection CLOSED]");
+                $("#spanStatus").text("disconnected");
+            };
+
+
+
+        }
+
+        $("#play").click(function (e) {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send($("#textInput").val());
+            }
+            else {
+                $("#spanStatus").text("Connection is closed");
+            }
+        });
+
+        $("#btnDisconnect").click(function () {
+            ws.close();
+        });
+    };
+</script>

@@ -165,23 +165,15 @@ var SlotEngineController = BaseController.extend(function () {
 
     //INIT FINAL
     this.InitFinalSpinners = function (reelData) {
-        console.time("StartDrawing");
-        //dlog("[START PROCESS]" + new Date().getTime());
-
-
-
         for (var i = 0; i < this.reelItems.length; i++) {
 
             var canvas = self.canvasArr[i];
             var nuCtx = canvas.getContext('2d');
             var size = { w: this.itemh, h: this.itemh * 4 };
             var delay = i * 50;
-            //invoke creator on every canvas involved
             $.finalizer.CreateSpriteCanvas(this.reelItems[i], nuCtx, $.finalImageData, reelData.sprite, reelData.reels[i], size, delay);
         }
-
-        // dlog("\n\n\n[COMPLETE PROCESS]" + new Date().getTime());
-        console.timeEnd("StartDrawing");
+        
         return;
     }
 

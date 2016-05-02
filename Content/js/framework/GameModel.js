@@ -15,7 +15,7 @@ function GameModel() {
     this.Timer = 0;
     this.globalID = null;
     this.finalCounterHeader = 0;
-    this.betTimerVal = 8;
+    this.betTimerVal = 20;
     this.itemH = 110;
 
     /*POSSIBLE STATES*/

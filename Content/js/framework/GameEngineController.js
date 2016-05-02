@@ -15,6 +15,13 @@ var GameEngineController = BaseController.extend(function () {
         this.VSprite = _sprite2;
     }
 
+    this.onServerResultComplete = function (notification) {
+        var serverdata = notification.data;
+        debugger
+        debug("notification:" + notification.gameMatrix);
+    }
+
+
     this.onNotification = function (notification) {
         var that = this;
         switch (notification.message) {
@@ -33,17 +40,29 @@ var GameEngineController = BaseController.extend(function () {
                     this.prepareGameData({ gameMatrix: serverdata.data });
                 }
                 else if (serverdata.action == Constants.$_SERVER_BET_RESULT) {
+                    console.timeEnd('start-notification');
+
                     vm.ServerBetResult = { gameMatrix: serverdata.data };
                     var that = this;
-                    doTimer(200, 50, null, function () {
+
+                    vm.IS_BET_RESULT = true;
+                    vm.IS_BUSY = false;
+                    vm.IS_TIMER = true;
+
+                    $("#resultInd").css("background", "#ee0000"); //red
+                    $("#timer").css("color", "red");
+                    that.prepareBetData(vm.ServerBetResult);
+                    
+                    //
+                    return;
+                    doTimer(10, 1, null, function () {
                         vm.IS_BET_RESULT = true;
                         vm.IS_BUSY = false;
                         vm.IS_TIMER = true;
 
                         //[***DEBUG******]
                         
-                        $("#resultInd").css("background", "#ee0000"); //red
-                        $("#timer").css("color", "red");
+                        
                         //[***DEBUG******]
 
                         //debug("IS_BET_RESULT:" + vm.IS_BET_RESULT);
@@ -177,7 +196,6 @@ var GameEngineController = BaseController.extend(function () {
                 action: Constants.$_PREPARE_FINAL_IMG,
                 slotData: { reels: reelsData, sprite: self.VSprite },
             }, Constants.$_GAME_ENGINE_NOTIFICATION);
-
             broadcaster.Notify(notification);
         });
     }

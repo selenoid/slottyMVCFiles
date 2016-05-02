@@ -71,8 +71,11 @@ var Finalizer = Class.extend(function () {
 
             _ctx.putImageData(processedData, 0, 0);
             reelItem.reelFinalBitmap.src = tempCanvas.toDataURL("image/png");
-            self.counter++;
+            if (self.counter == 4) {
+                console.timeEnd('sequence');
+            }
 
+            self.counter++;
         });
 
 

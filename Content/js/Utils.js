@@ -58,7 +58,7 @@ window.dlog = function (params) {
     if (!isLogging) return;
     if (typeof params == "function") return;
     if (params && params.length > 0) {
-        console.log(params.toString());
+        //console.log(params.toString());
     }
 }
 

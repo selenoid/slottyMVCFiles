@@ -1,46 +1,33 @@
 ﻿@{
-    ViewBag.Title = "Video Slot Game";
+    ViewBag.Title = "Game";
 }
 @model OnlineCasinoModel.MemberModel
 
 
 <div id="main-container">
-    <div id="game-container">
-        <div id="interface">
-            <a id="gambleButton" href="javascript:void(0);" class="btn"></a>
-            <a id="collectButton" href="javascript:void(0);" class="btn"></a>
-            <a id="autoplayButton" href="javascript:void(0);" class="btn"></a>
-            <a id="exitButton" href="javascript:void(0);" class="btn"></a>
-            <a id="betPanelView" href="javascript:void(0);" class="btnText betButton betPanel"></a>
-            <a id="betButton_10" href="javascript:void(0);" class="btnText btn betButton">10</a>
-            <a id="betButton_25" href="javascript:void(0);" class="btnText btn betButton">25</a>
-            <a id="betButton_50" href="javascript:void(0);" class="btnText btn betButton">50</a>
-            <a id="betButton_100" href="javascript:void(0);" class="btnText btn betButton">100</a>
 
-        </div>
-        <div id="d535" style="display:block;">
-            <div class="slotbg"><canvas id="canvas1" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas2" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas3" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas4" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas5" width="107" height="324" class="cItem animClass"></canvas></div>
+    <div id="game-container">
+        <div id="d535">
+            <div class="slotbg"><canvas id="canvas1" width="107" height="321" class="cItem animClass"></canvas></div>
+            <div class="slotbg"><canvas id="canvas2" width="107" height="321" class="cItem animClass"></canvas></div>
+            <div class="slotbg"><canvas id="canvas3" width="107" height="321" class="cItem animClass"></canvas></div>
+            <div class="slotbg"><canvas id="canvas4" width="107" height="321" class="cItem animClass"></canvas></div>
+            <div class="slotbg"><canvas id="canvas5" width="107" height="321" class="cItem animClass"></canvas></div>
         </div>
         <div id="imgHolder"></div>
         <div id="dashboard">
-            <div class="inline"><h4>Slot Game<span id="resultInd">&nbsp;_&nbsp;</span></h4></div>
-            <div class="inline"><h4 id="indicator2">frames:0</h4></div>
-            <div class="inline" style="width:40px;"><h4 id="timer">Timer:0</h4></div>
-            <div class="inline"><span id="spanProfit">Your Bet Result </span></div>
-            <div class="inline"><span id="zoomInd">1</span></div>
+            <div class="inline"><h4>Slot Game<span id="resultInd">&nbsp;_&nbsp;</span></h4></div><div class="inline"><h4 id="indicator2">frames:0</h4></div><div class="inline"><h4 id="timer">Timer:0</h4></div>
         </div>
-        <div id="balance"><span id="totalAmount">@Model.TotalAmount$</span> </div>
-        <div id="betholder"><input type="text" id="textInput" value="0"></div>
     </div>
+    
+     
 </div>
 
 
 <div id="wrapper-test">
     <div>
+
+
         <div id="divgameMatrix">
             @{
                 for (int i = 0; i < Model.GameModel.Column; i++)
@@ -58,6 +45,7 @@
     </div>
     <div style="margin-top: 57px;">
         <div style="float: left; margin-left: 28px;">
+            Your Cash:
             <span id="totalAmount">@Model.TotalAmount$</span>
         </div>
         <div style="margin-left: 264px;">
@@ -76,20 +64,14 @@
     var memberId = @Model.MemberId;
     //$().ready(function ()
     function initSocket (isAppInited) {
-        dlog("initing socket...");
+        //dlog("initing socket...");
         if (memberId != null) {
             $("#spanStatus").text("connecting");
-            /*ws = new WebSocket("ws://" + window.location.hostname +
-                               ":"+window.location.port+"/api/Game");*/
+            ws = new WebSocket("ws://" + window.location.hostname +
+                ":53714/api/Game");
 
-            if ($.test == true) {
-                ws = new WebSocket("ws://" + window.location.hostname +
-                               ":53714/api/Disconnected");
-            }
-            else {
-                ws = new WebSocket("ws://" + window.location.hostname +
-                "/api/Game");
-            }
+            //ws = new WebSocket("ws://" + window.location.hostname +
+            //"/api/Game");
 
             ws.onopen = function () {
                 $("#spanStatus").text("connected");
@@ -99,12 +81,8 @@
             };
 
             ws.onmessage = function (evt) {
-
-                console.timeEnd('server-send');
-                console.time ("data-parse");
-                console.time ("sequence");
-
-                //dlog("[server return] >>" + evt.data.toString());
+                dlog("[server return ok!]" + new Date().getTime());
+                dlog("[server return] >>" + evt.data.toString());
                 var response = evt.data;
                 var result = JSON.parse(evt.data,5);
                 response = result.split(" ");
@@ -116,11 +94,11 @@
                     if (profit > 0) {
                         $("#checkIcon").show();
                         $("#spanProfit").text("   You Win!!!  "+profit+ " $ ");
-                        $("#spanProfit").css("color", "greenyellow");
+                        $("#spanProfit").css("background-color", "greenyellow");
                     } else {
                         $("#checkIcon").hide();
                         $("#spanProfit").text("You lost :(( ");
-                        $("#spanProfit").css("color", "inherit");
+                        $("#spanProfit").css("background-color", "bisque");
                     }
                     if (i === 3) {
                         totalAmount = response[i];
@@ -129,29 +107,29 @@
                         var tempMatrix = response[i].substring(1, response[i].length - 1);
                         var gameMatrix = tempMatrix.split(',');
                         var nData = {  action:Constants.$_SERVER_BET_RESULT, data:tempMatrix, profit:profit}
-                        //gameEngine.onServerResultComplete(nData);
-                        console.timeEnd('data-parse');
-                        console.time('start-notification');
                         notify("serverResponse", nData);
-                        /* var r;
-                         var rowindex = 0;
-                         var rowCount = row;
-                         $("#divgameMatrix").empty();
-                         for (var c = 0; c < column; c++) {
-                             if (row <= gameMatrix.length) {
-                                 $("#divgameMatrix").append("<ul id="+c+">");
-                                 $("#" + c).css("float", "left");
-                                 for (r = rowindex; r < row; r++) {
-                                     $("#"+c).append("<li>" + gameMatrix[r] + "</li>");
-                                 }
+                        var r;
+                        var rowindex = 0;
+                        var rowCount = row;
+                        $("#divgameMatrix").empty();
+                        for (var c = 0; c < column; c++) {
+                            if (row <= gameMatrix.length) {
+                                $("#divgameMatrix").append("<ul id="+c+">");
+                                $("#" + c).css("float", "left");
+                                for (r = rowindex; r < row; r++) {
+                                    $("#"+c).append("<li>" + gameMatrix[r] + "</li>");
+                                }
 
-                                 rowindex = row;
-                                 row = row + rowCount;
-                             }
+                                rowindex = row;
+                                row = row + rowCount;
+                            }
 
-                         }*/
+                        }
+
                         //$.gameData = {gameMatrix:gameMatrix, success:"success", code:200};
+
                     }
+
                 }
                 $("#totalAmount").text(totalAmount);
 
@@ -179,6 +157,7 @@
             var async = (_async == true) ? _async : false;
             var  nData = {  action:Constants.$_STOP_REELS, data:{async:async, slotData:''}}
             notify(Constants.$_STOP_REELS, nData);
+            //dlog("[server send] >> stop spin...");
         }
 
         function toggleSpin (e) {
@@ -189,21 +168,20 @@
                 //if bet is placed, result returned and still spinning
                 if(vm.IS_SPINNING && vm.IS_BET_RESULT) {
                     vm.IS_BUSY = true;
-                    $("#resultInd").css("background","#CCFF00"); //yellow
+                    $("#resultInd").css("background","#CCcc00");//dark yellow
                     invokeStop(vm.Timer < vm.betTimerVal);
                     return;
                 }
 
                 //if ready for betting
                 if(vm.IS_OPEN_FOR_BET) {
-                    console.time('server-send');
                     var nData = {  action:Constants.$_SERVER_BET_START, data:{}, profit:0};
                     notify(Constants.$_SPIN_REELS, nData);
                     ws.send($("#textInput").val());
+                    //dlog("[server send] >> start spin...");
                     vm.IS_OPEN_FOR_BET = false;
                     vm.IS_BUSY = true;
-                    $("#resultInd").css("background","#0000cc"); //dark blue
-
+                    $("#resultInd").css("background","#0000ee"); //blue
                     return;
                 }
             }
@@ -223,7 +201,7 @@
         }
 
         $("#play").click(function (e) {
-            dlog("[start spin ]" +  new Date().getTime());
+            dlog("click...") + e.target;
             toggleSpin(Constants.$_PlayButton);
         });
 
