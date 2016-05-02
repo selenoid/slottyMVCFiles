@@ -204,8 +204,10 @@ var GameEngineController = BaseController.extend(function () {
             })
         }
         else {
-            vm.APlayCount = 0;
-            debugger
+            //end autoplay
+            this.MaxAPlayCount = 0;
+            this.APlayCount = 0;
+            this.APlayInterval = 0;
         }
     }
 
