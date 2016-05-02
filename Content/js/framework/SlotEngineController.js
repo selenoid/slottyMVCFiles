@@ -9,12 +9,14 @@ var SlotEngineController = BaseController.extend(function () {
     this.cacheCtx = null;
     this.cacheCanvas = null;
     this.itemh = 110;
+    this.autoplayCounter = 0;
+
     $.finalImageData = null;
 
 
     this.onBounceComplete = function (item) {
         if (item.lastItem) {
-            
+
             var notification = new Notification(Constants.$_ANIMATION_COMPLETE, {
                 action: Constants.$_ALL_REELS_FROZEN,
                 reelData: {},
@@ -190,7 +192,7 @@ var SlotEngineController = BaseController.extend(function () {
             var delay = i * 50;
             $.finalizer.CreateSpriteCanvas(this.reelItems[i], nuCtx, $.finalImageData, reelData.sprite, reelData.reels[i], size, delay);
         }
-        
+
         return;
     }
 

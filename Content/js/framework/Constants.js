@@ -19,6 +19,9 @@
     $_ANIMATION_COMPLETE: "animationComplete",
     $_FINAL_IMG_READY: "finalImageReady",
     $_ALL_REELS_FROZEN: "onAllReelsFrozen",
+    $_AUTOPLAY: "autoplay",
+    $_START_AUTOPLAY: "startAutoplay",
+    $_STOP_AUTOPLAY: "startAutoplay",
     $_NONE: "none"
 }
     

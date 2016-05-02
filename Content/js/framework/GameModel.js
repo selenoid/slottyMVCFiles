@@ -17,6 +17,9 @@ function GameModel() {
     this.finalCounterHeader = 0;
     this.betTimerVal = 20;
     this.itemH = 110;
+    this.MaxAPlayCount = 0;
+    this.APlayCount = 0;
+    this.APlayInterval = 0;
 
     /*POSSIBLE STATES*/
     this.IS_ANIM_STOPPED = true;

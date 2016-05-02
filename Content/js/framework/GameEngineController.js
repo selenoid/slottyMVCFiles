@@ -55,7 +55,7 @@ var GameEngineController = BaseController.extend(function () {
                     $("#resultInd").css("background", "#ee0000"); //red
                     $("#timer").css("color", "red");
                     that.prepareBetData(vm.ServerBetResult);
-                    
+
                     //
                     return;
                     /*doTimer(5, 1, null, function () {
@@ -75,6 +75,21 @@ var GameEngineController = BaseController.extend(function () {
                     });*/
                 }
 
+                break;
+            case Constants.$_AUTOPLAY:
+                var notification = notification.notificationData;
+                if (notification.action = Constants.$_START_AUTOPLAY) {
+
+                    vm.MaxAPlayCount = notification.autoplayData.count;
+                    vm.APlayInterval = notification.autoplayData.interval;
+
+                    if (vm.MaxAPlayCount > 0) {
+                        this.InvokeAPlay();
+                    }
+
+                } else {
+                    //
+                }
                 break;
             case Constants.$_FINAL_IMG_READY:
                 var data = notification.notificationData;
@@ -134,12 +149,13 @@ var GameEngineController = BaseController.extend(function () {
         }
     }
 
+    this.InvokeAPlay = function () {
+        $("#play").click();
+    }
 
 
-    var resetAllParams = function () {
-        //dlog("Resetting game 2...");
 
-        //$('body').css('background-color', "#EFEFEF");
+    this.ResetAllParams = function () {
         // open click for another bet  
         vm.IS_ANIM_STOPPED = true;
         vm.IS_SPINNING = false;
@@ -158,7 +174,6 @@ var GameEngineController = BaseController.extend(function () {
     };
 
     this.onAllAnimationsComplete = function () {
-        debugger
         debug("all animations complete...");
     }
 
@@ -168,7 +183,8 @@ var GameEngineController = BaseController.extend(function () {
         $("#timer").text(vm.Timer);
         $("#resultInd").css("background", "none");
         var self = this;
-        var callback = resetAllParams;
+        var callback =  self.onAnimationsComplete//resetAllParams;
+
         doTimer(100, 100, null, function () {
             //dlog('Game sequence ended ..opening click.');
             $("#resultInd").css("background", "none");
@@ -176,6 +192,22 @@ var GameEngineController = BaseController.extend(function () {
         });
     };
 
+    this.onAnimationsComplete = function () {
+
+        this.ResetAllParams();
+        var self = this;
+
+        if (vm.APlayCount < vm.MaxAPlayCount) {
+            doTimer(vm.APlayInterval, 200, null, function () {
+                self.InvokeAPlay();
+                vm.APlayCount++;
+            })
+        }
+        else {
+            vm.APlayCount = 0;
+            debugger
+        }
+    }
 
     this.prepareGameData = function (serverGameData) {
         var self = this;

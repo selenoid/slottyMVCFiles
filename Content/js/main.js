@@ -62,6 +62,14 @@ function initApp(img) {
         $("#play").click();
     });
 
+    $("#autoplayButton").click(function () {
+        var notification = new Notification(Constants.$_AUTOPLAY, {
+            action: Constants.$_START_AUTOPLAY,
+            autoplayData: { count: 5, interval: 1 * 1000, action: Constants.$_START_AUTOPLAY }
+        }, "GameEngineNotification");
+        broadcaster.Notify(notification);
+    });
+
     $(document).on("keypress", function (e) {
         // use e.which
         switch (e.which) {
