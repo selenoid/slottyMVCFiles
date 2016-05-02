@@ -55,7 +55,7 @@ var GameEngineController = BaseController.extend(function () {
                     
                     //
                     return;
-                    doTimer(10, 1, null, function () {
+                    /*doTimer(5, 1, null, function () {
                         vm.IS_BET_RESULT = true;
                         vm.IS_BUSY = false;
                         vm.IS_TIMER = true;
@@ -69,7 +69,7 @@ var GameEngineController = BaseController.extend(function () {
                         //debug("vm.IS_BUSY:" + vm.IS_BUSY);
                         that.prepareBetData(vm.ServerBetResult);
                         //slotEngine.InitFinalSpinners(vm.ServerBetResult);
-                    });
+                    });*/
                 }
 
                 break;
