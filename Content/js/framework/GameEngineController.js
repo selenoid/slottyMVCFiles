@@ -82,7 +82,7 @@ var GameEngineController = BaseController.extend(function () {
 
                     vm.MaxAPlayCount = notification.autoplayData.count;
                     vm.APlayInterval = notification.autoplayData.interval;
-
+                    $("#spinLeft").text("spins: " + parseInt((vm.MaxAPlayCount - vm.APlayCount)));
                     if (vm.MaxAPlayCount > 0) {
                         this.InvokeAPlay();
                     }
@@ -201,13 +201,15 @@ var GameEngineController = BaseController.extend(function () {
             doTimer(vm.APlayInterval, 200, null, function () {
                 self.InvokeAPlay();
                 vm.APlayCount++;
+
+                $("#spinLeft").text("spins: "+parseInt((vm.MaxAPlayCount - vm.APlayCount)));
             })
         }
         else {
             //end autoplay
-            this.MaxAPlayCount = 0;
-            this.APlayCount = 0;
-            this.APlayInterval = 0;
+            vm.MaxAPlayCount = 0;
+            vm.APlayCount = 0;
+            vm.APlayInterval = 0;
         }
     }
 
