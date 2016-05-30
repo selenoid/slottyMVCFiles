@@ -18,10 +18,9 @@ var MainController = BaseController.extend(function () {
         }
     }
 
+    //BET BUTTON CLICK
     function initBetButtonListeners() {
-        debug("button listeners initialized..");
-
-        $(".betButton").on("click tap", function (e) {
+        $(".betButton").on("mousedown press", function (e) {
             //$(".isActive").removeClass("isActive");
             //$(e.currentTarget).addClass("isActive");
 

@@ -99,7 +99,7 @@ function processRawDataForSpinners(rawData) {
         spliced.push(spliced[0], spliced[1], spliced[2]); // add extra items for seamlessly looping of the spinning animation
         retval[retval.length] = spliced;   //add decorated items array the newly created rolleritems array
 
-        console.log("l:" + rawData.length);
+        //console.log("l:" + rawData.length);
     }
     return retval;
 }
@@ -131,7 +131,7 @@ function processRawData(rawData) {
 
         retval[retval.length] = spliced;
         /*test*/
-        console.log("l:" + rawData.length);
+       // console.log("l:" + rawData.length);
     }
     return retval;
 }

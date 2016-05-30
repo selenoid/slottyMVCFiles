@@ -73,7 +73,7 @@ window.debug = function (params) {
 window.info = function (params) {
     if (typeof params == "function") return;
     if (params && params.length > 0) {
-        console.info(params.toString());
+       // console.info(params.toString());
     }
 }
 

@@ -11,7 +11,7 @@ var Finalizer = Class.extend(function () {
 
     //Classes can have constructors
     this.constructor = function () {
-        console.log(this.id + " inited...");
+        //console.log(this.id + " inited...");
         //createWorkers();
 
         this.worker = new Worker('../Content/js/framework/workers/computefinals.js');
@@ -23,7 +23,7 @@ var Finalizer = Class.extend(function () {
         //dlog("[start processing ]" + date.getTime());
 
         var sourceL = 0;
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < icons.length; i++) {
             var offsetY = icons[i].id;
             var offset = (vm.itemH * offsetY) * (4 * vm.itemH);
             var start = offset;
@@ -40,6 +40,8 @@ var Finalizer = Class.extend(function () {
         return nuImgData;
     }
 
+
+    //CREATE FINAL SPRITES
     this.CreateSpriteCanvas = function (reelItem, daCtx, imgData, daSprites, reelData, size, delay) {
         var self = this;
 
@@ -55,7 +57,7 @@ var Finalizer = Class.extend(function () {
             //cache canvas variables
             var cw = 110
             //blank reel image for final cut
-            var nuImageData = daCtx.createImageData(cw, vm.itemH * 4);
+            var nuImageData = daCtx.createImageData(cw, vm.itemH * size.length);
 
             //worker.postMessage('Hello World'); // Send data to our worker.
             var wo = {
@@ -71,7 +73,10 @@ var Finalizer = Class.extend(function () {
 
             _ctx.putImageData(processedData, 0, 0);
             reelItem.reelFinalBitmap.src = tempCanvas.toDataURL("image/png");
-            if (self.counter == 4) {
+
+            //$("#imagesHolder").append(reelItem.reelFinalBitmap);
+
+            if (self.counter == 5) {
                 console.timeEnd('sequence');
             }
 

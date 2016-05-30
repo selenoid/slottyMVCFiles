@@ -19,5 +19,4 @@ var BaseController = Class.extend(function () {
                 break;
         }
     }
-
 });

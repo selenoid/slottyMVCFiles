@@ -9,44 +9,23 @@ var ReelController = BaseController.extend(function () {
     this.reelItemData = null;
     this.finalReelItemData = null;
     this.id = "";
-    this.slotData = null;
-    this.reelBase = null;
     this.canvas = null;
     this.sprites = null;
     this.ctx = null;
-    //this.itemh = 110;
     this.yoffset = 0;
     this.stagedIconNum = 3;
     this.fullIconNum = 0;
-    this.container = null;
-    this.counter = 0;
+    this.posy = 0;
     this.iconNum = this.stagedIconNum;
     this.self = null;
     this.reelAnimationBitmapCanvas = null;
     this.reelAnimBitmap = null;
     this.reelFinalAnimBitmap = null;
-    this.animIncOrg = 0.25;
-    this.animInc = this.animIncOrg;
-    this.animOffsety = this.orgY;
     this.reelBitmap = null;
     this.reelFinalBitmap = null;
-    this.Stopped = false;
-    this.stopDelay = 0;
-
-
-    this.dest = 0;
-    this.curP = null;
-    this.spinAnimOrgY = 0; // ((this.itemh* (this.fullIconNum)) - (3 * this.itemh) ) ;
-    this.spinAnimOffset = this.spinAnimOrgY;
-    this.animIncFinal = 0;
-    this.finalPos = null;
-    this.isBouncing = false;
+    this.isStopped = false;
     this.lastItem = false;
-
-    this.finalCounter = 12;
-    this.xOffset = 0;
-    this.finalOffset = 0;
-    this.finalClearOffset = 0;
+    this.isFastStopped = false;
 
 
     //initing SlotEngine
@@ -60,24 +39,13 @@ var ReelController = BaseController.extend(function () {
         this.reelFinalBitmap.setAttribute("class", "finalImage");
     };
 
-    $.testReels = function (val, inc) {
-        console.clear();
-        slotEngine.reelItems[0].TestAnimateReel(val, inc);
-    }
-
-    this.stopCounter = -10;
-
     this.ResetReel = function () {
-        this.animInc = this.animIncOrg;
-        this.curP = null;
-        this.Stopped = false;
-        this.stopCounter = -10;
-        this.isBouncing = false;
-        this.finalPos = 0;
-        this.finalCounter = 12;
-        this.xOffset = 0;
-        this.finalOffset = 0;
-        this.finalClearOffset = 0;
+        this.isStopped = false;
+        this.isSpinComplete = false;
+        this.posy = 0;
+        this.isStopInited = false;
+        this.isFastStopped = false;
+        this.Timer = null;
     }
 
     this.InitReel = function (reelItemData) {
@@ -88,16 +56,13 @@ var ReelController = BaseController.extend(function () {
         this.UpdateReelFinal(finalBitmap);
     }
 
-    /*this.InitFinalReel = function (finalReelData) {
-        this.UpdateReelFinal(finalReelData);
-    }*/
 
     this.onNotification = function (notification) {
         switch (notification.message) {
             case Constants.$_SERVER_RESPONSE:
                 //
                 break;
-            case Constants.$_REEL_COMMAND:u
+            case Constants.$_REEL_COMMAND: u
                 dlog(this.id + " [processing  notification] " + notification.message);
                 break;
             default:
@@ -122,137 +87,118 @@ var ReelController = BaseController.extend(function () {
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        //this.ctx.drawImage(reelBitmapCanvas, 0, 0); //draw initial roller image to canvas.
-      
         var self = this;
 
         this.reelBitmap.src = reelBitmapCanvas.toDataURL("image/png");  //set rollerImageCanvas as a source for roller image element .
         this.reelBitmap.addEventListener("load", function (img) {
             self.ctx.drawImage(self.reelBitmap, 0, 0); //draw initial roller image to canvas.
         });
-        
-        this.container = $(this.canvas).parent();
+
+        if (this.id == 'reel_4') {
+
+            var notification = new Notification(Constants.$_GAME_INITED, {
+                action: Constants.$_DISPLAY_GAME,
+                data: {},
+            }, Constants.$_REEL_CONTROLLER_NOTIFICATION);
+
+            broadcaster.Notify(notification);
+        }
     }
 
-    this.UpdateReelFinal= function (finalBitmap) {
+    this.itemArr = [6, 6, 2, 2, 5, 0, 0, 0, 5, 5, 5, 7, 7, 6, 6, 6, 3, 3, 3, 0, 2, 2, 2, 0, 0, 1, 4, 4, 0, 0, 0, 5, 5, 5, 6, 6, 6, 3, 3, 4, 4, 2, 2, 1, 1, 5, 5, 5, 6, 6, 6, 4, 4, 0, 0, 0, 0, 4, 3, 3, 3, 6, 6, 6, 7, 7, 7, 3, 3, 3, 4, 4, 4, 6, 6, 2, 2, ];
+    this.org = (this.itemArr.length - 3) * -110;
+    this.inc = 40;
+    this.xpos = 0;
+    this.ypos = 40;
+    this.posCounter = 0;
+    this.isStopInited = false;
+    this.posy = (this.itemArr.length - 3) * -110;
+    this.arrPos = [-55, -71, -82, -90.11, -96.831, -101.53, -104.36, -106.49, -107.99, -108.80, -109.32, -109.66, -109.85, -109.93, -109.97, -109.99, -109.99, -109.992, -109.99, -109.99, -110];
+    this.isSpinComplete = false;
+    this.currentSpinId;
+    this.canStop = true;
 
-        dlog("updating final bitmap : " + finalBitmap);
-        debugger
-        this.reelFinalBitmap = new Image();             // reel bitmap image -to be used as a source for actual context in actual canvas-
-        this.reelFinalBitmap.setAttribute("class", "finalImage");
+    this.StopSpin = function () {
+        this.isStopped = true;
     }
 
-    this.StopSpinImmediate = function () {
-        this.stopped = true;
-    }
-
-    this.StopSpin = function (delay) {
-        this.stopDelay = delay;
+    /*this.StopSpin = function (delay) {
         var that = this;
-
-        doTimer(delay, 100, null, function () {
-            that.Stopped = true;
+        this.timer = doTimer(delay, 100, null, function () {
+            debug("doTimer worked : " + that.currentSpinId);
+            that.isStopped = true;
         });
+    }*/
+
+    this.cut = function (param) {
+        if (this.id = "reel_0") {
+            debug(">" + param.toString());
+        }
     }
 
     /*HARD-CORE CANVAS ANIMATION*/
-    this.AnimateReel = function (inc) {
-        if (this.isBouncing) {
-            //debug('.');
-            return;
-        }
+    this.AnimateReel = function (spinId) {
 
-        if (this.reelAnimBitmap == null) {
-            this.reelAnimBitmap = this.reelBitmap;
-        }
+        this.currentSpinId = spinId;
+        if (this.isSpinComplete) return;
 
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.animInc = this.animIncOrg;
-        this.counter = inc;
+        if (this.isStopped == true) {
 
-        this.spinAnimOffset = (vm.itemH * (this.animInc * this.counter));
-        this.ctx.drawImage(this.reelAnimBitmap, 0, this.spinAnimOffset, this.reelAnimBitmap.width, this.vm.itemH * 3, 0, 0, this.reelAnimBitmap.width, this.vm.itemH * 3);
-
-
-        if (this.Stopped) {
-            this.ctx.clearRect(0, 0, this.canvas.width, (this.vm.itemH * (this.animInc * this.finalClearOffset)));
-            this.finalClearOffset += 1;
-            var top = (this.reelFinalBitmap.height - (this.vm.itemH * (this.animInc * this.finalClearOffset)));
-
-            var bottom = (this.vm.itemH * (this.animInc * (this.finalClearOffset * -1)));
-            var height = top;
-      
-            this.ctx.drawImage(this.reelFinalBitmap, 0, height, this.reelFinalBitmap.width, this.vm.itemH * 3, 0, 0, this.reelFinalBitmap.width, this.vm.itemH * 3);
-        }
-        else {
-            //this.finalCounterHeader = inc;
-        }
-
-        this.xOffset = this.spinAnimOffset;
-
-        var self = this;
-
-        if (this.Stopped) {
-            if (this.stopCounter === -10) {
-                self.extraTick = self.counter % 4;
-                self.stopCounter = 12 + self.extraTick;
+            if (!this.isStopInited) {
+                this.isStopInited = true;
+                this.posCounter = 0;
             }
             else {
-                if (this.stopCounter > -1) {
-                    this.stopCounter--;
-                }
-                else {
-                    self.isBouncing = true;
-                    self.bounceAnimationStart();
+                //
+            }
+
+            if (this.posCounter < this.arrPos.length - 1) {
+                this.posCounter++;
+                this.ypos = this.arrPos[this.posCounter];
+
+                if (this.id == "reel_4") {
+                    // debug(this.isStopped + ", stop: pos:" + this.posCounter);
                 }
             }
+            else {
+                this.isSpinComplete = true;
+                if (this.id == "reel_4") {
+                   // debug("last item fires..." + this.posCounter);
+                }
+            }
+
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.drawImage(this.reelFinalBitmap, 0, 0, 110, 110 * 4, this.xpos, this.ypos, 110, 110 * 4);
         }
         else {
-            //
-        }
 
-        $("#tf" + this.id).text(this.counter + ", " + (this.counter % 4));
-    }
+            this.posy += this.inc;
 
-    this.getGrooved = function (pos) {
-        var grd = 0;
-        var nuposdif = pos % this.vm.itemH;
-        //debug("diff:" + nuposdif);
-        grd = (pos - nuposdif) + (1 * this.vm.itemH);
-        return grd;
-    }
-
-    this.bounceAnimationStart = function () {
-
-        var self = this;
-        var animNode = $("<div class='animNode'></div>");
-        this.finalPos = this.getGrooved(this.spinAnimOffset); +(this.vm.itemH * (this.animInc * (0.5)));
-
-
-        $(animNode).css({ top: -15 });
-        $(animNode).animate({ top: 0 }, {
-            easing: "easeOutExpo",
-            duration: 250,
-            start: function () {
-
-            },
-            step: function (val) {
-                self.updateBounce(val);
-            },
-            complete: function () {
-                self.parentController.onBounceComplete(self);
+            if (this.id == "reel_4") {
+                //debug(">>>>>>>>>" + this.isStopped + ", run: posy:" + this.posy);
             }
-        });
+
+            if (this.posy > -1650) {
+                this.posy = this.org;
+            }
+
+            if (this.reelAnimBitmap == null) {
+                this.reelAnimBitmap = this.reelBitmap;
+            }
+
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+            for (var i = 0; i < this.itemArr.length; i++) {
+                var n = this.itemArr[i];
+                this.ctx.drawImage(this.reelAnimBitmap, 0, n * 110, 110, 110, this.xpos, (i * 110) + this.posy, 110, 110);
+            }
+        }
     }
-    this.top = 0;
-    this.updateBounce = function (val) {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.drawImage(this.reelFinalBitmap, 0, val, this.reelFinalBitmap.width, vm.itemH * 3, 0, 0, this.reelFinalBitmap.width, vm.itemH * 3);
-    }
+
 
     // get roller base img
     this.GetBaseReelImage = function (reelData, iconNum) {
-        
+
         this.yoffset = 0;
         var _sprites = reelData.sprite;       //get sprite data from rollerdata.
 
@@ -266,8 +212,6 @@ var ReelController = BaseController.extend(function () {
         cacheCtx = canvasCache.getContext('2d');
         cacheCtx.clearRect(0, 0, canvasCache.width, canvasCache.height);
 
-        var xoffset = 0;
-        
         for (var i = 0; i < iconNum; i++) {
             var rItem = reelItems[i];
             cacheCtx.drawImage(_sprites, rItem.x, rItem.y, rItem.w, 110, 0, this.yoffset, rItem.w, 110);
@@ -275,4 +219,5 @@ var ReelController = BaseController.extend(function () {
         }
         return canvasCache;
     };
+
 });

@@ -1,46 +1,18 @@
-﻿@model OnlineCasinoModel.LoginModel
-<!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"-->
-<!--link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>-->
-<!--link href="~/css/LoginMenu.css" rel="stylesheet" />-->
-<!-- LOGIN FORM -->
-<li class="dropdown" id="menuLogin">
-    <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin">Login</a>
-    <div class="text-center dropdown-menu" style="padding: 17px 0;width: 228px;margin-left: -156px;background-color: #244769;margin-top: 14px;">
-        <div class="logo">login</div>
-        <!-- Main Form -->
-        <div class="login-form-1">
-            @using (Html.BeginForm("Login","Member"))
-            {
-                <form id="login-form" class="text-left">
-                    <div class="login-form-main-message"></div>
-                    <div class="main-login-form">
-                        <div class="login-group">
-                            <div class="form-group">
-                                <label for="lg_email" class="sr-only">Email</label>
-                                @Html.TextBoxFor(m=>m.Email, new {@class= "form-control" , @placeholder = "email",id= "lg_email" })
-                                @*<input type="text" class="form-control" id="lg_username" name="lg_username" placeholder="username">*@
-                            </div>
-                            <div class="form-group">
-                                <label for="lg_password" class="sr-only">Password</label>
-                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "password", id = "lg_password" })
-                               @* <input type="password" class="form-control" id="lg_password" name="lg_password" placeholder="password">*@
-                            </div>
-                            <div class="form-group login-group-checkbox">
-                                <input type="checkbox" id="lg_remember" name="lg_remember">
-                                <label for="lg_remember">remember</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
-                    </div>
-                    <div class="etc-login-form">
-                        <p>
-                            <a href="@Url.Action("Register", "Member")">Create new account</a>
-                        </p>
-                    </div>
-                </form>
-            }
-
-        </div>
-        <!-- end:Main Form -->
+﻿<div class="login-page">
+    <div class="form">
+        <form class="register-form">
+            <input type="text" placeholder="name" />
+            <input type="password" placeholder="password" />
+            <input type="text" placeholder="email address" />
+            <button>create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+        <form class="login-form">
+            <input type="text" placeholder="username" />
+            <input type="password" placeholder="password" />
+            <button>login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
     </div>
-</li>   
+</div>
+}

@@ -1,44 +1,112 @@
-﻿@{
+﻿﻿@{
     ViewBag.Title = "Video Slot Game";
 }
-@model OnlineCasinoModel.MemberModel
+@model OnlineCasinoModel.MemberViewModel
 
 
-<div id="main-container">
-    <div id="game-container">
-        <div id="interface">
-            <a id="gambleButton" href="javascript:void(0);" class="btn"></a>
-            <a id="collectButton" href="javascript:void(0);" class="btn"></a>
-            <a id="autoplayButton" href="javascript:void(0);" class="btn"></a>
-            <a id="exitButton" href="javascript:void(0);" class="btn"></a>
-            <a id="betPanelView" href="javascript:void(0);" class="btnText betButton betPanel"></a>
-            <a id="betButton_10" href="javascript:void(0);" class="btnText btn betButton">10</a>
-            <a id="betButton_25" href="javascript:void(0);" class="btnText btn betButton">25</a>
-            <a id="betButton_50" href="javascript:void(0);" class="btnText btn betButton">50</a>
-            <a id="betButton_100" href="javascript:void(0);" class="btnText btn betButton">100</a>
 
-        </div>
-        <div id="d535" style="display:block;">
-            <div class="slotbg"><canvas id="canvas1" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas2" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas3" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas4" width="107" height="324" class="cItem animClass"></canvas></div>
-            <div class="slotbg"><canvas id="canvas5" width="107" height="324" class="cItem animClass"></canvas></div>
-        </div>
-        <div id="imgHolder"></div>
-        <div id="dashboard">
-            <div class="inline"><h4>Slot Game<span id="resultInd">&nbsp;_&nbsp;</span></h4></div>
-            <div class="inline"><h4 id="indicator2">frames:0</h4></div>
-            <div class="inline" style="width:40px;"><h4 id="timer">Timer:0</h4></div>
-            <div class="inline"><span id="spanProfit">Your Bet Result </span></div>
-            <div class="inline"><span id="zoomInd">1</span></div>
-            <div class="inline"><span id="spinLeft">0</span></div>
-        </div>
-        <div id="balance"><span id="totalAmount">@Model.TotalAmount$</span> </div>
-        <div id="betholder"><input type="text" id="textInput" value="0"></div>
-    </div>
+<div id="preloader"> GAME LOADING... </div>
+<div id="infopanel">
+    <div class="container">Please Use at Landscape mode.</div>
 </div>
+<!-- GAME CONTAINER -->
+<div id="game-container">
+    <div id="control-panel">
+        <p>
+            <button id="p0" class="paylineSet close">x</button>
+        </p>
+        <p>
+            <button id="p1" class="paylineSet">payline 1</button>
+            <button id="p2" class="paylineSet">payline 2</button>
+            <button id="p3" class="paylineSet">payline 3</button>
+            <button id="p4" class="paylineSet">payline 4</button>
+            <button id="p5" class="paylineSet">payline 5</button>
+            <button id="p99" class="paylineSet">scatter</button>
+        </p>
 
+    </div>
+    <div id="logo"></div>
+    <!-- GAMBLING LAYER-->
+    <div id="gamble-layer">
+        <div class="titles">
+            <p> <img src="~/Content/img/assets/gheader1.png" /><img src="~/Content/img/assets/diamond.png" /><span id="gamount">40</span></p>
+            <p><img src="~/Content/img/assets/gheader2.png" /><img src="~/Content/img/assets/diamond.png" /><span id="gwin">80</span></p>
+        </div>
+        <div id="gamble-result-info" class="bigFont round">YOU WIN!..</div>
+        <div id="history">
+            <p><img src="~/Content/img/assets/history.png" /></p>
+            <div id="cardsholder"></div>
+        </div>
+        <div id="cards">
+            <img src="~/Content/img/assets/redcard.png" />
+            <img src="~/Content/img/assets/redcard.png" />
+            <img src="~/Content/img/assets/redcard.png" />
+            <img src="~/Content/img/assets/redcard.png" />
+            <img src="~/Content/img/assets/redcard.png" />
+            <img class="playCard" src="~/Content/img/assets/redcard.png" />
+            <canvas id="cardSwap" width="100" height="142"></canvas>
+        </div>
+        <div>
+            <div id="redButton" class="gambleButton">
+                <img src="~/Content/img/assets/red.png" />
+            </div>
+            <div id="blackButton" class="gambleButton">
+                <img src="~/Content/img/assets/blackt.png" />
+            </div>
+        </div>
+        <div id="attemps">
+            <span class="count"></span>
+        </div>
+    </div><!--END GAMBLING LAYER-->
+    <div id="modal"></div>
+    <!-- PAYLINE LAYERS-->
+    <div id="payline-layer">
+        <div id="pin">
+            <img id="paylineImg" src="" />
+        </div>
+    </div>
+    <!-- END PAYLINE LAYERS-->
+    <div class="column"></div>
+    <div class="column left-pane"></div>
+    <div id="interface">
+        <a id="gambleButton" href="javascript:void(0);" class="btn"></a>
+        <a id="collectButton" href="javascript:void(0);" class="btn"></a>
+        <a id="autoplayButton" href="javascript:void(0);" class="btn"></a>
+        <a id="exitButton" href="javascript:void(0);" class="btn"></a>
+        <a id="betPanelView" href="javascript:void(0);" class="btnText betButton betPanel"></a>
+        <a id="betButton_10" href="javascript:void(0);" class="btnText btn betButton">10</a>
+        <a id="betButton_25" href="javascript:void(0);" class="btnText btn betButton">25</a>
+        <a id="betButton_50" href="javascript:void(0);" class="btnText btn betButton">50</a>
+        <a id="betButton_100" href="javascript:void(0);" class="btnText btn betButton">100</a>
+    </div>
+    <div id="d535" class="canvasHolder">
+        <div class="slotbg"><canvas id="canvas1" width="107" height="324" class="cItem animClass"></canvas></div>
+        <div class="slotbg"><canvas id="canvas2" width="107" height="324" class="cItem animClass"></canvas></div>
+        <div class="slotbg"><canvas id="canvas3" width="107" height="324" class="cItem animClass"></canvas></div>
+        <div class="slotbg"><canvas id="canvas4" width="107" height="324" class="cItem animClass"></canvas></div>
+        <div class="slotbg"><canvas id="canvas5" width="107" height="324" class="cItem animClass"></canvas></div>
+    </div>
+    <div id="animLayer" class="canvasHolder">
+        <div class="slotbg anim"><canvas id="animcanvas1" width="107" height="324" class="cItemOver animClass"></canvas></div>
+        <div class="slotbg anim"><canvas id="animcanvas2" width="107" height="324" class="cItemOver animClass"></canvas></div>
+        <div class="slotbg anim"><canvas id="animcanvas3" width="107" height="324" class="cItemOver animClass"></canvas></div>
+        <div class="slotbg anim"><canvas id="animcanvas4" width="107" height="324" class="cItemOver animClass"></canvas></div>
+        <div class="slotbg anim"><canvas id="animcanvas5" width="107" height="324" class="cItemOver animClass"></canvas></div>
+    </div>
+    <div id="imgHolder"></div>
+    <div id="dashboard" class="ui_item">
+        <div class="inline"><h4> <span id="resultInd">&nbsp;_&nbsp;</span></h4></div>
+        <div class="inline"><h4 id="indicator2"></h4></div>
+        <div class="inline" style="width:40px;"><h4 id="timer"></h4></div>
+        <div class="inline"><span id="spanProfit">Place Your Bet </span></div>
+        <div class="inline"><span id="zoomInd"></span></div>
+        <div class="inline"><span id="spinLeft"></span></div>
+        <div class="inline"><span id="interval"></span></div>
+    </div>
+    <div id="credit" class="ui_item"><span id="creditAmount">1</span> </div>o
+    <div id="balance" class="ui_item"><span id="totalAmount">@Model.TotalAmount$</span> </div>
+    <div id="betholder" class="ui_item"><input type="text" id="textInput" value="0"></div>
+</div>
 
 <div id="wrapper-test">
     <div>
@@ -68,93 +136,127 @@
         </div>
         <span id="spanStatus">(display)</span>
     </div>
-
 </div>
 
-<!--script src="~/Scripts/jquery-1.10.2.js"></script>-->
 <script type="text/javascript">
     var ws;
     var memberId = @Model.MemberId;
-    //$().ready(function ()
+    var vm;
+
     function initSocket (isAppInited) {
         dlog("initing socket...");
+        vm = new GameModel();
+        vm.ws = ws;
+
+        $.gDataSend = function (cCol) {
+            debug("sending data from socket 1:"+cCol);
+            var userData = {
+                MemberId: @Model.MemberId,
+                LoginToken: "@Model.LoginToken",
+                Bet: $("#textInput").val(),
+                GambleAccept: true,
+                CardColor :cCol, //color of the selected card 0 or 1
+                Attempt :  vm.gmodel.attemptCount,
+                GAmount :  vm.gmodel.gAmount
+            }
+
+            console.log("sending from socket : ", userData);
+
+            //TODO: Sending but recieving result in wrong status...
+            ws.send(JSON.stringify(userData));
+        }
+
+        debug("DG_DATA_SEND INITED...");
+
         if (memberId != null) {
             $("#spanStatus").text("connecting");
-            /*ws = new WebSocket("ws://" + window.location.hostname +
-                               ":"+window.location.port+"/api/Game");*/
-
-            if ($.test == true) {
-                ws = new WebSocket("ws://" + window.location.hostname +
-                               ":53714/api/Disconnected");
-            }
-            else {
-                ws = new WebSocket("ws://" + window.location.hostname +
-                "/api/Game");
-            }
+            ws = new WebSocket("ws://" + window.location.hostname +
+                              ":"+window.location.port+"/api/Disconnected");
 
             ws.onopen = function () {
                 $("#spanStatus").text("connected");
-                //dlog("[socket connection ok!]");
+                disableGambleButton();
                 var nData = {action:Constants.$_SERVER_CONNECTED, data:"4,5,2,1,6,7,2,3,4,6,7,5,2,2,4", profit:0}
                 notify("serverResponse", nData);
             };
 
-            ws.onmessage = function (evt) {
+            ws.onmessage = function(evt) {
+                console.timeEnd('[ server-return ]');
+                var jsonResult = JSON.parse(evt.data);
+                switch (jsonResult.Status) {
+                    case 1:
 
-                console.timeEnd('server-send');
-                //console.time ("data-parse");
-                console.time ("sequence");
-
-                //dlog("[server return] >>" + evt.data.toString());
-                var response = evt.data;
-                var result = JSON.parse(evt.data,5);
-                response = result.split(" ");
-                var totalAmount = "";
-                for (var i = 0; i < response.length; i++) {
-                    var column = parseInt(response[7]);
-                    var row =parseInt(response[9]);
-                    var profit = parseInt(response[11]);
-                    if (profit > 0) {
-                        $("#checkIcon").show();
-                        $("#spanProfit").text("   You Win!!!  "+profit+ " $ ");
-                        $("#spanProfit").css("color", "greenyellow");
-                    } else {
-                        $("#checkIcon").hide();
-                        $("#spanProfit").text("You lost :(( ");
-                        $("#spanProfit").css("color", "inherit");
-                    }
-                    if (i === 3) {
-                        totalAmount = response[i];
-                    }
-                    else if(i === 5) {
-                        var tempMatrix = response[i].substring(1, response[i].length - 1);
-                        var gameMatrix = tempMatrix.split(',');
-                        var nData = {  action:Constants.$_SERVER_BET_RESULT, data:tempMatrix, profit:profit}
-                        //gameEngine.onServerResultComplete(nData);
-                        //console.timeEnd('data-parse');
-                        console.time('start-notification');
+                        console.log("Status=1:Only MatrixModel : ", jsonResult);
+                        var nData = { action: Constants.$_SERVER_BET_RESULT, data: jsonResult.GameMatrix, profit: 0 };
+                        if(vm.customData.length > 0) {
+                            nData.data = vm.customData;
+                        }
                         notify("serverResponse", nData);
-                        /* var r;
-                         var rowindex = 0;
-                         var rowCount = row;
-                         $("#divgameMatrix").empty();
-                         for (var c = 0; c < column; c++) {
-                             if (row <= gameMatrix.length) {
-                                 $("#divgameMatrix").append("<ul id="+c+">");
-                                 $("#" + c).css("float", "left");
-                                 for (r = rowindex; r < row; r++) {
-                                     $("#"+c).append("<li>" + gameMatrix[r] + "</li>");
-                                 }
+                        break;
 
-                                 rowindex = row;
-                                 row = row + rowCount;
-                             }
+                    case 2:
+                        console.log("Status=2:Gamble,Money and Payline Model : ", jsonResult);   
+                        if (jsonResult.MoneyModel.Profit > 0) {
+                        //if (jsonResult.PayLineModels && jsonResult.PayLineModels.length > 0) {
+                            vm.PaylineModels = jsonResult.PayLineModels;
+                            vm.gameMoneyModel = jsonResult.MoneyModel;
+                            if (jsonResult.IsGamble) {
+                                console.log("Gamble Model:", jsonResult.GambleModel);
+                                clearGambleData();
+                                vm.gmodel.gAmount = jsonResult.GambleModel.GAmount;
+                                vm.gmodel.wAmount = jsonResult.GambleModel.WAmount;
+                                vm.gmodel.attemptCount = jsonResult.GambleModel.Attempt;
+                                enableGambleButton();
+                            }
 
-                         }*/
-                        //$.gameData = {gameMatrix:gameMatrix, success:"success", code:200};
-                    }
-                }
-                $("#totalAmount").text(totalAmount);
+                            if(jsonResult.Win == true && jsonResult.GambleModel.Attempt == 0) {
+                                debug(">> END_OF_GAMBLE..attempts left: " + jsonResult.GambleModel.Attempt);
+
+                                var notification = new Notification(Constants.$_SERVER_RESPONSE, {
+                                    action: Constants.$_GAMBLE_RESULT_RECIEVED,
+                                    data: { result: jsonResult },
+                                }, Constants.$_ANIMATION_CONTROLLER_NOTIFICATION);
+
+                                vm.gmodel.attemptCount = jsonResult.GambleModel.Attempt;
+                                vm.gmodel.gAmount = jsonResult.GambleModel.WAmount;
+                                vm.gmodel.wAmount = "";
+
+                                broadcaster.Notify(notification);
+                            }
+
+                            var nData = {action:Constants.$_SERVER_BET_RESULT_WIN, data:jsonResult, profit:parseInt(jsonResult.MoneyModel.Profit)}
+                            notify("serverResponse", nData);
+
+                            $("#checkIcon").show();
+                            $("#spanProfit").text("");
+                           // $("#spanProfit").css("color", "greenyellow");
+                        } else {
+                            $("#checkIcon").hide();
+                            $("#spanProfit").text("Place Your Bet");
+                            $("#spanProfit").css("color", "inherit");
+                        }
+                        dlog("Money:", jsonResult.MoneyModel.TotalAmount);
+                        var amount = parseInt(jsonResult.MoneyModel.TotalAmount);
+                        $("#totalAmount").text(amount);
+                        break;
+
+                    case 3:
+                        //TODO: Handle gamble view control to Gambler Controller.
+                        //debugger
+                        console.log("Status= 3: CardGame Model",jsonResult);
+                        var notification = new Notification(Constants.$_SERVER_RESPONSE, {
+                            action: Constants.$_GAMBLE_RESULT_RECIEVED,
+                            data: { result: jsonResult },
+                        }, Constants.$_ANIMATION_CONTROLLER_NOTIFICATION);
+                        vm.gmodel.attemptCount = jsonResult.GambleModel.Attempt;
+                        vm.gmodel.gAmount = jsonResult.GambleModel.GAmount;
+
+                        broadcaster.Notify(notification);
+                        break;
+                    default:
+                        alert("An error ocurred!!");
+                };
+
 
             };
 
@@ -163,7 +265,7 @@
             };
 
             ws.onclose = function () {
-                //dlog("[socket connection CLOSED]");
+                debug("[socket connection CLOSED]");
                 $("#spanStatus").text("disconnected");
             };
 
@@ -176,6 +278,15 @@
 
         }
 
+        function clearGambleData() {
+            vm.gmodel. gAmount = "";
+            vm.gmodel.wAmount = "";
+            vm.gmodel.attemptCount = "";
+            disableGambleButton();
+            //$("#gambleButton").css('display', 'none');
+            $("#gamble-layer").css('display', 'none');
+        }
+
         function invokeStop(_async) {
             var async = (_async == true) ? _async : false;
             var  nData = {  action:Constants.$_STOP_REELS, data:{async:async, slotData:''}}
@@ -185,7 +296,7 @@
         function toggleSpin (e) {
             if (ws.readyState == WebSocket.OPEN) {
 
-                debug("clicked...");
+                dlog("clicked...");
                 if(vm.IS_STOP_IMMEDIATE) return;
 
 
@@ -198,21 +309,28 @@
                 //if bet is placed, result returned and still spinning
                 if(vm.IS_SPINNING && vm.IS_BET_RESULT) {
                     vm.IS_BUSY = true;
-                    $("#resultInd").css("background","#CCFF00"); //yellow
+                    //$("#resultInd").css("background","#CCFF00"); //yellow
                     invokeStop(vm.Timer < vm.betTimerVal);
                     return;
                 }
 
                 //if ready for betting
                 if(vm.IS_OPEN_FOR_BET) {
-                    console.time('server-send');
+                    console.time('[ server-return ]');
                     var nData = {  action:Constants.$_SERVER_BET_START, data:{}, profit:0};
                     notify(Constants.$_SPIN_REELS, nData);
-                    ws.send($("#textInput").val());
+                    var userData= {
+                        MemberId :@Model.MemberId,
+                        LoginToken: "@Model.LoginToken",
+                        Bet : $("#textInput").val(),
+                        GAmount :  vm.gmodel.gAmount,
+                        GambleAccept : false
+                    }
+
+                    ws.send(JSON.stringify(userData));
                     vm.IS_OPEN_FOR_BET = false;
                     vm.IS_BUSY = true;
-                    $("#resultInd").css("background","#0000cc"); //dark blue
-
+                   //$("#resultInd").css("background","#0000cc"); //dark blue
                     return;
                 }
             }
@@ -239,5 +357,10 @@
         $("#btnDisconnect").click(function () {
             ws.close();
         });
+
+        function getGAmount(gAmount) {
+            debugger
+            return gAmount;
+        }
     };//);
 </script>
